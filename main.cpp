@@ -6,7 +6,18 @@ int main() {
 
     // read tokens until the end of file is reached
     while ((token = static_cast<tokentype>(yylex()))) {
-        // your code here
-    }
+        switch (token) {
+		case UKCHAR:
+			output::errorUnknownChar(*yytext);
+			break;
+		case UCSTR:
+			output::errorUnclosedString();
+		case UDESC:
+			output::errorUndefinedEscape(yytext); //check this i might be stupid
+		deafault:
+			output::printToken(yylineno,token,yytext);
+			break;
+	 }
+}
     return 0;
 }

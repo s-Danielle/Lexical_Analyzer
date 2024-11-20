@@ -1,6 +1,6 @@
 %{
 /* C declarations */
-#include <tokens.hpp>
+#include "tokens.hpp"
 /*our codde here*/
 %}
 
@@ -16,13 +16,11 @@ whitespace	([\t\n\r ])
 
 %%
 
-// lexema tab function/rule
 
 void		return VOID;
 int   	 return INT;
 byte   	return BYTE;
 bool  	 return BOOL;
-auto  	 return AUTO;
 and   	 return AND;
 or   	  return OR;
 not    return NOT;
@@ -42,7 +40,7 @@ continue      return CONTINUE;
 \}       return RBRACE;
 = 	 return ASSIGN;
 [!=><]=|>|<             return RELOP;
-[+-*/]                  return BINOP;
+[\-+\*\/]                  return BINOP;
 \/\/[^\\n]*                return COMMENT;
 {letter}[a-zA-Z0-9]*		 return ID;
 ([1-9]+{digit}*b)|0b		return NUM_B;

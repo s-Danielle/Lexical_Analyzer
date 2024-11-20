@@ -30,7 +30,11 @@ enum tokentype {
     ID,
     NUM,
     NUM_B,
-    STRING
+    STRING,
+    UCSTR,
+    UDESC,
+    UKCHAR,
+    ERROR
 };
 
 extern int yylineno;
