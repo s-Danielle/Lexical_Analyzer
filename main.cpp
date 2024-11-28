@@ -2,11 +2,8 @@
 #include "output.hpp"
 #include <cstdio>
 #include <string>
-
-void handleString(std::string str, int len){
-	
-}
-
+#include <regex>
+extern std::string string_input;
 int main() {
     enum tokentype token;
 
@@ -15,18 +12,16 @@ int main() {
     while ((token = static_cast<tokentype>(yylex()))) {
         switch (token) {
 		case UKCHAR:
-			output::errorUnknownChar(yytext[yyleng-1]);
+			output::errorUnknownChar(string_input.c_str()[0]);
 			break;
 		case UCSTR:
 			output::errorUnclosedString();
 			break;
 		case UDESC:
-			output::errorUndefinedEscape(yytext); //check this i might be stupid
+			output::errorUndefinedEscape(string_input.c_str()); //check this i might be stupid
 			break;
 		case STRING:
-			temp = yytext;
-			handleString(temp, yyleng);
-			output::printToken(yylineno,token,temp.c_str());
+			output::printToken(yylineno,token,string_input.c_str());
 			break;
 		default:
 			output::printToken(yylineno,token,yytext);
