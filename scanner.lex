@@ -13,8 +13,9 @@
 digit	([0-9])
 letter	([a-zA-Z])
 whitespace	([\t\n\r ])
-printableHex              (\x20-\x7e)
-
+legalEsc           ([\\ntr\"0])
+hex              (x[0-9A-Fa-f]{0,2})
+legalStr           ([ !#-\[\]-~	])
 
 
 %%
@@ -44,12 +45,14 @@ continue      return CONTINUE;
 = 	 return ASSIGN;
 [!=><]=|>|<             return RELOP;
 [\-+\*\/]                  return BINOP;
-\/\/[^\\n]*                return COMMENT;
+\/\/[^\n\r]*                return COMMENT;
 {letter}[a-zA-Z0-9]*		 return ID;
 ([1-9]+{digit}*b)|0b		return NUM_B;
 ([1-9]+{digit}*)|0     	 return NUM;
-\"[ a-zA-z0-9]*\"		return STRING;		
+\"({legalStr}|\\{legalEsc}|\\{hex})*\"			 return STRING;
+\"({legalStr}|\\{legalEsc}|\\{hex})*			 return UCSTR;
+\"({legalStr}|\\{legalEsc}|\\{hex})*\\[^\\ntr\"0]	         return UDESC;
 {whitespace}+		;
 
-.		{ return UDESC; }
+.		{ return UKCHAR; }
 
