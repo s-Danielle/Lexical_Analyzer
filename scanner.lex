@@ -42,6 +42,8 @@ continue      return CONTINUE;
 \)       return RPAREN;
 \{       return LBRACE;
 \}       return RBRACE;
+\[       return LBRACK;
+\]       return RBRACK;
 = 	 return ASSIGN;
 [!=><]=|>|<             return RELOP;
 [\-+\*\/]                  return BINOP;
