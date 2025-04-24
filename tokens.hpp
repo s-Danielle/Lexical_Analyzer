@@ -23,6 +23,8 @@ enum tokentype {
     RPAREN,
     LBRACE,
     RBRACE,
+    LBRACK,
+    RBRACK,
     ASSIGN,
     RELOP,
     BINOP,
