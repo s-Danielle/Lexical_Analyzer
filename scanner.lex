@@ -54,7 +54,7 @@ continue      return CONTINUE;
 ([1-9]+{digit}*)|0     	 return NUM;
 \"{legalStrContent}\"			 return STRING;
 \"{legalStrContent}			 return UCSTR;
-\"{legalStrContent}\\x[^\"\n]{0,2}         return UDESC;
+\"{legalStrContent}\\x[^\"\n]{0,2}         return ILLHEX;
 \"{legalStrContent}\\[^\\ntr\"0x]	         return UDESC;
 
 {whitespace}+		;

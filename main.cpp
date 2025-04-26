@@ -51,7 +51,6 @@ int main() {
     // read tokens until the end of file is reached
     while ((token = static_cast<tokentype>(yylex()))) {
         auto seq = &yytext[yyleng - 1];
-        char* buf;
         switch (token) {
         case UKCHAR:
             output::errorUnknownChar(yytext[yyleng - 1]);
@@ -60,8 +59,11 @@ int main() {
             output::errorUnclosedString();
             break;
         case UDESC:
-            for (; *seq != '\\'; seq--);
-            output::errorUndefinedEscape(seq + 1); //check this i might be stupid
+            output::errorUndefinedEscape(yytext + (yyleng - 1));
+            break;
+        case ILLHEX:
+            for (; *seq != 'x'; seq--);
+            output::errorUndefinedEscape(seq);
             break;
         case STRING:
             parsingStr = std::string(yytext);
