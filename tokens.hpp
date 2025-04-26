@@ -36,6 +36,7 @@ enum tokentype {
     UCSTR,
     UDESC,
     UKCHAR,
+    ILLHEX,
     ERROR
 };
 

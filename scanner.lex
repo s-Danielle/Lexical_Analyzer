@@ -13,9 +13,10 @@
 digit	([0-9])
 letter	([a-zA-Z])
 whitespace	([\t\n\r ])
-legalEsc           ([\\ntr\"0])
-hex              (x[0-9A-Fa-f]{0,2})
-legalStr           ([ !#-\[\]-~	])
+printableCharHex		   ([2-6][0-9a-fA-F]|7[0-9a-eA-E]|0[9AaDd])
+legalEsc           (\\[\\ntr\"0]|\\x{printableCharHex})
+simpleStrChar           ([ !#-\[\]-~	])
+legalStrContent			({simpleStrChar}|{legalEsc})*
 
 
 %%
@@ -51,9 +52,11 @@ continue      return CONTINUE;
 {letter}[a-zA-Z0-9]*		 return ID;
 ([1-9]+{digit}*b)|0b		return NUM_B;
 ([1-9]+{digit}*)|0     	 return NUM;
-\"({legalStr}|\\{legalEsc}|\\{hex})*\"			 return STRING;
-\"({legalStr}|\\{legalEsc}|\\{hex})*			 return UCSTR;
-\"({legalStr}|\\{legalEsc}|\\{hex})*\\[^\\ntr\"0]	         return UDESC;
+\"{legalStrContent}\"			 return STRING;
+\"{legalStrContent}			 return UCSTR;
+\"{legalStrContent}\\x[^\"\n]{0,2}         return ILLHEX;
+\"{legalStrContent}\\[^\\ntr\"0x]	         return UDESC;
+
 {whitespace}+		;
 
 .		{ return UKCHAR; }
